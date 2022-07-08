@@ -10,15 +10,38 @@ const Home = () => {
     const [ products, setProducts ] = useState();
     const [ productsSelected, setProductsSelected] = useState([]);
 
-    const token = localStorage.getItem('accessToken');
-    // const productInLS = localStorage.getItem('product-1')
     const addProductsSelected = (event, product) => {
         event.preventDefault();
-        setProductsSelected([...productsSelected, product]);
-        
+        if(!productsSelected.find((item) => item.id === product.id)){
+            product.qty = 1;
+            setProductsSelected([...productsSelected, product])
+        } else{
+            const updateQty = productsSelected.map((p) => {
+            return p.id === product.id ? { ...p, qty: p.qty + 1 } : p
+            })
+            setProductsSelected(updateQty)
+        }
     }
-    console.log(productsSelected)
-    const getProducts = () => fetch('http://localhost:8080/products', {
+
+    const reduceProductSelected = (event, product) => {
+        event.preventDefault();
+            const updateQty = productsSelected.map((p) => {
+            return p.id === product.id ? { ...p, qty: p.qty - 1 } : p
+            })
+            setProductsSelected(updateQty)
+    }
+    // eliminar producto seleccionado
+    const deleteProductSelected = (event, product) => {
+        event.preventDefault();
+        const newArrayofProductsSelected = productsSelected.filter((item) => item.id !== product.id);
+        setProductsSelected(newArrayofProductsSelected)
+    }
+
+
+    
+    const getProducts = () => {
+        const token = localStorage.getItem('accessToken');
+        return fetch('http://localhost:8080/products', {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
@@ -28,6 +51,7 @@ const Home = () => {
         .then(response => response.json()) 
         .then(json => setProducts(json))
         .catch(err => console.log(err));
+    }
 
     useEffect(()=>{
         getProducts();
@@ -87,11 +111,13 @@ const Home = () => {
                 </div>
             </section>
             <section className="section__makeOrder">
-                <div  className="listOfOrder">
-                    lista de ordenes
-                    {/* { productInLS ? <ListOfOrder/> : 'nada'} */}
-                    <ListOfOrder/>
-                </div>
+                    <ListOfOrder
+                    productsProp={productsSelected}
+                    addProductSelected={addProductsSelected}
+                    quitProductSelected={reduceProductSelected}
+                    deleteProduct={deleteProductSelected}
+                    />
+
             </section>
         </div>
     )

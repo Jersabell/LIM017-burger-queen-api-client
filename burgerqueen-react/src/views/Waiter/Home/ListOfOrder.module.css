@@ -1,0 +1,26 @@
+.ListOfOrder{
+    padding: 20px;
+    background-color: blueviolet;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.ProductsSelected{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: rgb(21, 7, 33);
+    width: 80%;
+}
+.CardProductSelected{
+    background-color: white;
+    /* margin: 20px; */
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 2fr 1fr;
+}
+
+.imselectedProduct{
+    width: 70px;
+}
