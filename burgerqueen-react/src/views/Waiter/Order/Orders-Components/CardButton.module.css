@@ -25,7 +25,7 @@
   padding: calc(.875rem - 1px) calc(1.5rem - 1px);
   position: relative;
   transition: all 250ms;
-  width: auto;
+  width: 65%;
 }
 
 .CardButton:hover,

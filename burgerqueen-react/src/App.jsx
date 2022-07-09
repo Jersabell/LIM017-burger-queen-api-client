@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import Navbar from './views/components/Navbar';
 import './App.css'
@@ -30,6 +30,10 @@ export function AppWaiter() {
 // Controles para Admin: barra de navegación para todas las vistas de este usuario
 
 export function AppAdmin() {
+useEffect(()=>{
+  
+})
+
   return (
     <>
       <header>

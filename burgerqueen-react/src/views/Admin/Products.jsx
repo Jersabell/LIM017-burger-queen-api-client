@@ -1,6 +1,8 @@
 import './Products.css';
 import React, {useEffect, useState} from 'react';
-import {Box, Table, TableContainer, TableHead, TableCell, TableBody, TableRow, TextField, Button, Modal} from '@mui/material';
+import { Box, Table, TableContainer, 
+    TableHead, TableCell, TableBody, TableRow, TextField, 
+    Button, Modal } from '@mui/material';
 import {Edit, Delete} from '@mui/icons-material';
 // import { styled } from '@mui/material/styles';
 
@@ -73,41 +75,49 @@ const Products = () => {
     },[])
 
     // Insertar el cuerpo del MODAL
+    
+        
     const style = {
         position: 'absolute',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 400,
+        width: 600,
         bgcolor: 'background.paper',
-        border: '2px solid #000',
+        // border: '2px solid #F39C12 ',
         boxShadow: 24,
-        p: 4,
+        p: 5,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 1.5,
+        justifyContent: 'center',
+        
       };
 
     const bodyInsertarModal=(
         <Box sx={style}>
-            <h3>Add Product</h3>
-            <TextField name="product"  label="Product" onChange={handleChangeModal}/>
-            <br />
-            <TextField name="price"  label="Price" onChange={handleChangeModal}/>
-            <br />
-            <TextField name="type"  label="Type" onChange={handleChangeModal}/>
-            <br />
-            <TextField name="dateEntry"  label="DateEntry" onChange={handleChangeModal}/>
-            <br />
-            <TextField name="image"  label="Image" onChange={handleChangeModal}/>
-            <br /><br />
-            <div>
-                <Button color='primary' onClick={peticionPost}>INSERT</Button>
-                <Button onClick={abrirCerrarModalInsertar}>CANCEL</Button>
+            <h2 id="parent-modal-title">Add Product</h2>
+            <TextField color="warning" name="product"  label="Product" onChange={handleChangeModal}/>
+            
+            <TextField color="warning" name="price"  label="Price" onChange={handleChangeModal}/>
+            
+            <TextField color="warning" name="type"  label="Type" onChange={handleChangeModal}/>
+            
+            <TextField color="warning" name="dateEntry"  label="DateEntry" onChange={handleChangeModal}/>
+            
+            <TextField color="warning" name="image"  label="Image" onChange={handleChangeModal}/>
+            
+            
+            <div style={{display: 'flex', gap: '15px', justifyContent:'flex-end'}}>
+                <Button variant="contained" color='warning' onClick={peticionPost}>INSERT</Button>
+                <Button variant="contained" color='warning' onClick={abrirCerrarModalInsertar}>CANCEL</Button>
             </div>
         </Box>
     )
 
     return(
         <div className='Table'>
-            <Button variant="contained" onClick={abrirCerrarModalInsertar} >+ Add Product</Button>
+            <Button color="warning" variant="contained" onClick={abrirCerrarModalInsertar} >+ Add Product</Button>
             <TableContainer>
                 <Table>
                     <TableHead>

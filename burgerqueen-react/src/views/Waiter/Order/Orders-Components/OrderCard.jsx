@@ -13,13 +13,15 @@ function OrderCard({client, dataEntry, userId, status, products }){
             </div>
             <div className={style.Card__products}>
                 {products.map(item => <CardProduct
+                key={`${item.product.name}-${item.product.id}-${client}`}
                 qty={item.qty}
-                img={item.product.image}
+                img={!item.product.image ? 'image not found' : item.product.image }
                 name={item.product.name}
                 price={item.product.price}/>)}
             </div>
             <div className={style.Card__button}>
-                <CardButton/>
+                <CardButton
+                text="listo para servir"/>
                 <p>Status: {status}</p>
                 <p>tiempo de prepación: -</p>
             </div>

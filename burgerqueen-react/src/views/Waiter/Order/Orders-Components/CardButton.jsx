@@ -1,9 +1,8 @@
 import style from './CardButton.module.css'
-function CardButton(){
+function CardButton({text, clickftn}){
     return (
-        <button className={style.CardButton}>
-            {/* {rol.text} */}
-            Listo para servir
+        <button onClick={clickftn} className={style.CardButton}>
+            {text}
         </button>
     )
 };
