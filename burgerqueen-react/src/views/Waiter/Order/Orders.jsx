@@ -35,7 +35,7 @@ const Order = () => {
                     {!orders ? <div>Loading</div> : 
                     orders.map(order =>{
                         return <OrderCard
-                        key={order.id}
+                        key={`order-${order.id}`}
                         client={order.client}
                         dataEntry={order.dataEntry}
                         userId={order.userId}
