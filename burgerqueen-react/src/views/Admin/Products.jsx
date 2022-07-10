@@ -2,7 +2,7 @@ import './Products.css';
 import React, {useEffect, useState} from 'react';
 import { Box, Table, TableContainer, 
     TableHead, TableCell, TableBody, TableRow, TextField, 
-    Button, Modal } from '@mui/material';
+    Button, Modal, InputLabel, MenuItem, FormControl, Select } from '@mui/material';
 import {Edit, Delete} from '@mui/icons-material';
 // import { styled } from '@mui/material/styles';
 
@@ -101,7 +101,13 @@ const Products = () => {
             
             <TextField color="warning" name="price"  label="Price" onChange={handleChangeModal}/>
             
-            <TextField color="warning" name="type"  label="Type" onChange={handleChangeModal}/>
+           <FormControl fullWidth>
+                <InputLabel color="warning" id='select-label'>Type</InputLabel>
+                <Select color="warning" name='type' label="Type" onChange={handleChangeModal}>
+                    <MenuItem value={'Des'}>Desayuno</MenuItem>
+                    <MenuItem value={'Alm'}>Almuerzo</MenuItem>
+                </Select>
+           </FormControl>
             
             <TextField color="warning" name="dateEntry"  label="DateEntry" onChange={handleChangeModal}/>
             
