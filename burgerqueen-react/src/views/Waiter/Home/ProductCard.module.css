@@ -63,6 +63,7 @@
 }
 
 .ProductCard>img{
-    width: 70px;
+    width: auto;
+    max-height: 80px;
     /* background-color: aqua; */
 }

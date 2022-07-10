@@ -11,7 +11,7 @@
     font-size: 16px;
 }
 
-.section__chooseMenu{
+.section__makeOrder,.section__chooseMenu{
     overflow-y: auto;
 }
 .section__chooseMenu::-webkit-scrollbar {
@@ -131,5 +131,19 @@
 
 .section__makeOrder{
     background-color: rgba(245, 245, 220, 0.741);
+    padding-bottom: 10px;
 }
 
+.section__makeOrder::-webkit-scrollbar {
+    -webkit-appearance: none;
+    height: 15px;
+    width:8px;
+}
+.section__makeOrder::-webkit-scrollbar-button {
+    display: flex;
+} 
+.section__makeOrder::-webkit-scrollbar-thumb {
+    background-color: #1312129f;
+    border-radius: 20px;
+    border: 1px white;
+}

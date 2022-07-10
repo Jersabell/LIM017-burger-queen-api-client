@@ -2,7 +2,7 @@ import './Products.css';
 import React, {useEffect, useState} from 'react';
 import { Box, Table, TableContainer, 
     TableHead, TableCell, TableBody, TableRow, TextField, 
-    Button, Modal, InputLabel, MenuItem, FormControl, Select } from '@mui/material';
+    Button, Modal, InputLabel, MenuItem, FormControl, Select, Paper } from '@mui/material';
 import {Edit, Delete} from '@mui/icons-material';
 // import { styled } from '@mui/material/styles';
 
@@ -22,6 +22,8 @@ const Products = () => {
     });
 
     // datos que ingresan al INPUT del MODAL
+    const time = new Date().toDateString() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds();
+    
     const handleChangeModal=e=>{
         const {name, value}=e.target;
         setNewData(prevState=>({
@@ -49,7 +51,7 @@ const Products = () => {
             name:newData.product, 
             price:newData.price, 
             type:newData.type, 
-            dateEntry:newData.dateEntry, 
+            dateEntry:time, 
             image:newData.image
         }),
         headers:{
@@ -84,7 +86,6 @@ const Products = () => {
         transform: 'translate(-50%, -50%)',
         width: 600,
         bgcolor: 'background.paper',
-        // border: '2px solid #F39C12 ',
         boxShadow: 24,
         p: 5,
         display: 'flex',
@@ -98,9 +99,7 @@ const Products = () => {
         <Box sx={style}>
             <h2 id="parent-modal-title">Add Product</h2>
             <TextField color="warning" name="product"  label="Product" onChange={handleChangeModal}/>
-            
             <TextField color="warning" name="price"  label="Price" onChange={handleChangeModal}/>
-            
            <FormControl fullWidth>
                 <InputLabel color="warning" id='select-label'>Type</InputLabel>
                 <Select color="warning" name='type' label="Type" onChange={handleChangeModal}>
@@ -108,12 +107,7 @@ const Products = () => {
                     <MenuItem value={'Alm'}>Almuerzo</MenuItem>
                 </Select>
            </FormControl>
-            
-            <TextField color="warning" name="dateEntry"  label="DateEntry" onChange={handleChangeModal}/>
-            
             <TextField color="warning" name="image"  label="Image" onChange={handleChangeModal}/>
-            
-            
             <div style={{display: 'flex', gap: '15px', justifyContent:'flex-end'}}>
                 <Button variant="contained" color='warning' onClick={peticionPost}>INSERT</Button>
                 <Button variant="contained" color='warning' onClick={abrirCerrarModalInsertar}>CANCEL</Button>
@@ -123,12 +117,12 @@ const Products = () => {
 
     return(
         <div className='Table'>
-            <Button color="warning" variant="contained" onClick={abrirCerrarModalInsertar} >+ Add Product</Button>
-            <TableContainer>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Id</TableCell>
+            <Button color='warning' variant="contained" onClick={abrirCerrarModalInsertar} > Add Product</Button>
+            <TableContainer component={Paper}>
+                <Table >
+                    <TableHead sx={{fontweight: 800, bgcolor: '#dbdbdb'}}>
+                        <TableRow >
+                            <TableCell >Id</TableCell>
                             <TableCell>Product</TableCell>
                             <TableCell>Price</TableCell>
                             <TableCell>Type</TableCell>
