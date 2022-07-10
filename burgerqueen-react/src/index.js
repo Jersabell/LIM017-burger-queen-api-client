@@ -20,29 +20,37 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 //    </React.StrictMode>
 // );
 const test = true;
+// const rol = localStorage.getItem('userRol');
+// console.log(typeof(rol))
+// function adminRol(){
+//   return rol === '{"admin":true}'? true : false
+// }
+// function waiterRol(){
+//   return rol === '{"waiter":true}'? true : false
+// }
+
 
 
 root.render(
   <BrowserRouter>
     <Routes>
       <Route path='/' element={<Inicio />}></Route>
-      <Route path='/Login' element={<Login />}></Route>
-      <Route path='*' element={<PageNotFound />}></Route>
-      {/*  */}
+      <Route path='Login' element={<Login />}></Route>
+      <Route path='*' element={<PageNotFound />}></Route> 
       <Route path='/Waiter/' element={<AppWaiter />}>
         <Route index element={<HomeWaiter/>}/>
         <Route path='Profile' element={<Profile />}/>
         <Route path='Orders' element={<Order />}/>
         <Route path='*' element={<PageNotFound />}/>
       </Route>
-      {/*  */}
-      {test && (
+  
+      {test && ( 
       <Route path='/Admin' element={<AppAdmin/>}>
         <Route index element={<Products/>}/>
         <Route path='ProfileAdmin' element={<ProfileAdmin />}/>
         <Route path='Users' element={<Users />}/>
       </Route>
-      )}
+      )} 
       
     </Routes>
   </BrowserRouter>

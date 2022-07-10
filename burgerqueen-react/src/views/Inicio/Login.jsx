@@ -36,6 +36,8 @@ const LoginForm = () => {
           
           localStorage.setItem('accessToken', accessToken);
           localStorage.setItem('userId', user.id);
+          localStorage.setItem('userRol', JSON.stringify(user.roles));
+          console.log('auidel storage', localStorage.getItem('userRol'))
 
             if(res === 'Cannot find user'){
               setError('email', {
