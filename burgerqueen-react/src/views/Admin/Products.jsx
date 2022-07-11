@@ -22,7 +22,7 @@ const Products = () => {
     });
 
     // datos que ingresan al INPUT del MODAL
-    const time = new Date().toDateString() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds();
+    // const time = new Date().toDateString() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds();
     
     const handleChangeModal=e=>{
         const {name, value}=e.target;
@@ -51,7 +51,7 @@ const Products = () => {
             name:newData.product, 
             price:newData.price, 
             type:newData.type, 
-            dateEntry:time, 
+            dateEntry:new Date().toLocaleString(), 
             image:newData.image
         }),
         headers:{
