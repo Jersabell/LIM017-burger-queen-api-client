@@ -6,9 +6,10 @@ import { Box, Table, TableContainer,
 import {Edit, Delete} from '@mui/icons-material';
 // import { styled } from '@mui/material/styles';
 
-const url='http://localhost:8080/users';
+
 
 const Users = () => {
+    const url='http://localhost:8080/users';
     const token = localStorage.getItem('accessToken');
     const [ users, setUsers ]= useState([]);
     const [ modalInsertar, setmodalInsertar ]= useState(false);
@@ -16,26 +17,9 @@ const Users = () => {
         name: '',
         email: '',
         password: '',
-        roles: {},
+        roles: '',
     });
 
-    // datos que ingresan al INPUT del MODAL
-    
-    const handleChangeModal=e=>{
-        const {name, value}=e.target;
-        setNewUser({
-            ...newUser,
-            [name]: value
-        })
-    }
-
-    const handleChangeModalSelect=e=>{
-        const {name, value}=e.target;
-        setNewUser({
-            ...newUser,
-            [name]: { [value]: true }
-        })
-    }
 
     //FETCH: obtención de datos GET
     const peticionGet = () => fetch(url,{
@@ -50,13 +34,14 @@ const Users = () => {
     .catch(err => console.log(err));
 
     //FETCH subir datos POST
+    const objtRol = { [newUser.roles] : true }
     const peticionPost = () => fetch(url,{
         method: 'POST',
         body: JSON.stringify({
             name:newUser.name, 
             email:newUser.email, 
             password:newUser.password, 
-            roles: newUser.roles
+            roles: objtRol
         }),
         headers:{
             'Content-type': 'application/json',
@@ -69,12 +54,37 @@ const Users = () => {
         abrirCerrarModalInsertar();
     })
     .catch(error => error)
+    // funcion que lee rol para interfaz
+    // function getRoles(param){
+    //     if(param.admin === true){
+    //         return 'Admin'
+    //     } else if(param.waiter === true){
+    //         return 'Waiter'
+    //     } return 'Chef'
+    // }
 
     // función que ABRE o CIERAA el modal
     const abrirCerrarModalInsertar=()=>{
         setmodalInsertar(!modalInsertar);
     }    
+    
+    // datos que ingresan al INPUT del MODAL
+    
+    const handleChangeModal=e=>{
+        const {name, value}=e.target;
+        setNewUser({
+            ...newUser,
+            [name]: value
+        })
+    }
 
+    const handleChangeModalSelect=e=>{
+        const {name, value}=e.target;
+        setNewUser({
+            ...newUser,
+            [name]: value
+        })
+    }
     // muestra los datos obtenidos
     useEffect(()=>{
         peticionGet();
@@ -105,7 +115,7 @@ const Users = () => {
             <TextField color="warning" name="password"  label="Password" onChange={handleChangeModal}/>
            <FormControl fullWidth>
                 <InputLabel color="warning" id='select-label'>Rol</InputLabel>
-                <Select color="warning" name='roles' label="rol" onChange={handleChangeModalSelect}>
+                <Select labelId="select-label" value={newUser.roles} color="warning" name='roles' label="rol" onChange={handleChangeModalSelect}>
                     <MenuItem value={'admin'}>Admin</MenuItem>
                     <MenuItem value={'waiter'}>Waiter</MenuItem>
                     <MenuItem value={'chef'}>Chef</MenuItem>
@@ -126,7 +136,7 @@ const Users = () => {
                 <Table >
                     <TableHead sx={{fontweight: 800, bgcolor: '#dbdbdb'}}>
                         <TableRow >
-                            <TableCell >Id</TableCell>
+                            <TableCell>Id</TableCell>
                             <TableCell>Name</TableCell>
                             <TableCell>Email</TableCell>
                             <TableCell>Rol</TableCell>
@@ -140,7 +150,7 @@ const Users = () => {
                                 <TableCell>{user.id}</TableCell>
                                 <TableCell>{user.name}</TableCell>
                                 <TableCell>{user.email}</TableCell>
-                                <TableCell>{user.roles.admin ? 'Admin':'Waiter'}</TableCell>
+                                {/* <TableCell>{getRoles(user.roles)}</TableCell> */}
                                 <TableCell>
                                     <Edit />
                                     &nbsp;&nbsp;&nbsp;
