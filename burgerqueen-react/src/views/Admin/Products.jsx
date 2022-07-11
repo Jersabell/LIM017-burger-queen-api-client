@@ -4,7 +4,6 @@ import { Box, Table, TableContainer,
     TableHead, TableCell, TableBody, TableRow, TextField, 
     Button, Modal, InputLabel, MenuItem, FormControl, Select, Paper } from '@mui/material';
 import {Edit, Delete} from '@mui/icons-material';
-// import { styled } from '@mui/material/styles';
 
 const url='http://localhost:8080/products';
 
@@ -20,17 +19,6 @@ const Products = () => {
         dateEntry: '',
         image: '',
     });
-
-    // datos que ingresan al INPUT del MODAL
-    // const time = new Date().toDateString() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds();
-    
-    const handleChangeModal=e=>{
-        const {name, value}=e.target;
-        setNewData(prevState=>({
-            ...prevState,
-            [name]: value
-        }))
-    }
 
     //FETCH: obtención de datos GET
     const peticionGet = () => fetch(url,{
@@ -66,19 +54,32 @@ const Products = () => {
     })
     .catch(error => error)
 
+    // FETCH editar productos
+    
+
+
     // función que ABRE o CIERAA el modal
     const abrirCerrarModalInsertar=()=>{
         setmodalInsertar(!modalInsertar);
     }    
+    // datos que ingresan al INPUT del MODAL
+    // const time = new Date().toDateString() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds();
+    
+    const handleChangeModal=e=>{
+        const {name, value}=e.target;
+        setNewData(prevState=>({
+            ...prevState,
+            [name]: value
+        }))
+    }
+
 
     // muestra los datos obtenidos
     useEffect(()=>{
         peticionGet();
     },[])
 
-    // Insertar el cuerpo del MODAL
-    
-        
+    // Insertar el cuerpo del MODAL        
     const style = {
         position: 'absolute',
         top: '50%',
@@ -102,7 +103,7 @@ const Products = () => {
             <TextField color="warning" name="price"  label="Price" onChange={handleChangeModal}/>
            <FormControl fullWidth>
                 <InputLabel color="warning" id='select-label'>Type</InputLabel>
-                <Select color="warning" name='type' label="Type" onChange={handleChangeModal}>
+                <Select idlaber='select-label' value={newData.type} color="warning" name='type' label="Type" onChange={handleChangeModal}>
                     <MenuItem value={'Desayuno'}>Desayuno</MenuItem>
                     <MenuItem value={'Almuerzo'}>Almuerzo</MenuItem>
                 </Select>
