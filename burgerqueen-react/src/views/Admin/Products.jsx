@@ -103,8 +103,8 @@ const Products = () => {
            <FormControl fullWidth>
                 <InputLabel color="warning" id='select-label'>Type</InputLabel>
                 <Select color="warning" name='type' label="Type" onChange={handleChangeModal}>
-                    <MenuItem value={'Des'}>Desayuno</MenuItem>
-                    <MenuItem value={'Alm'}>Almuerzo</MenuItem>
+                    <MenuItem value={'Desayuno'}>Desayuno</MenuItem>
+                    <MenuItem value={'Almuerzo'}>Almuerzo</MenuItem>
                 </Select>
            </FormControl>
             <TextField color="warning" name="image"  label="Image" onChange={handleChangeModal}/>

@@ -9,7 +9,6 @@ import {Edit, Delete} from '@mui/icons-material';
 const url='http://localhost:8080/users';
 
 const Users = () => {
-
     const token = localStorage.getItem('accessToken');
     const [ users, setUsers ]= useState([]);
     const [ modalInsertar, setmodalInsertar ]= useState(false);
@@ -21,14 +20,21 @@ const Users = () => {
     });
 
     // datos que ingresan al INPUT del MODAL
-    // const time = new Date().toDateString() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds();
     
     const handleChangeModal=e=>{
         const {name, value}=e.target;
-        setNewUser(prevState=>({
-            ...prevState,
+        setNewUser({
+            ...newUser,
             [name]: value
-        }))
+        })
+    }
+
+    const handleChangeModalSelect=e=>{
+        const {name, value}=e.target;
+        setNewUser({
+            ...newUser,
+            [name]: { [value]: true }
+        })
     }
 
     //FETCH: obtención de datos GET
@@ -50,7 +56,7 @@ const Users = () => {
             name:newUser.name, 
             email:newUser.email, 
             password:newUser.password, 
-            roles:newUser.roles
+            roles: newUser.roles
         }),
         headers:{
             'Content-type': 'application/json',
@@ -75,8 +81,6 @@ const Users = () => {
     },[])
 
     // Insertar el cuerpo del MODAL
-    
-        
     const style = {
         position: 'absolute',
         top: '50%',
@@ -101,10 +105,10 @@ const Users = () => {
             <TextField color="warning" name="password"  label="Password" onChange={handleChangeModal}/>
            <FormControl fullWidth>
                 <InputLabel color="warning" id='select-label'>Rol</InputLabel>
-                <Select color="warning" name='roles' label="rol" onChange={handleChangeModal}>
-                    <MenuItem value={'Admin'}>Admin</MenuItem>
-                    <MenuItem value={'Waiter'}>Waiter</MenuItem>
-                    <MenuItem value={'Chef'}>Chef</MenuItem>
+                <Select color="warning" name='roles' label="rol" onChange={handleChangeModalSelect}>
+                    <MenuItem value={'admin'}>Admin</MenuItem>
+                    <MenuItem value={'waiter'}>Waiter</MenuItem>
+                    <MenuItem value={'chef'}>Chef</MenuItem>
                 </Select>
            </FormControl>
             
