@@ -1,12 +1,13 @@
 import * as React from 'react';
+import {useState} from 'react'
 import {Delete, Add, Remove} from '@mui/icons-material';
 import { Stack, Button, IconButton, Box, TextField, ButtonGroup, Snackbar, MuiAlert, AlertProps } from '@mui/material';
 import  style  from './ListOfOrder.module.css'
 import CardButton from '../Order/Orders-Components/CardButton';
 
 
-function ListOfOrder({productsProp, addProductSelected, quitProductSelected, deleteProduct, sumTotal, addingOrder}){
-
+function ListOfOrder({productsProp, addProductSelected, quitProductSelected, deleteProduct, sumTotal, addingOrder, handleChangeInputClient}){
+    
 // 
 // const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 //     props,
@@ -48,7 +49,6 @@ function ListOfOrder({productsProp, addProductSelected, quitProductSelected, del
 //     );
 //   }
 // 
-
     
 
     return(
@@ -63,7 +63,7 @@ function ListOfOrder({productsProp, addProductSelected, quitProductSelected, del
                     noValidate
                     autoComplete="off"
                 >
-                    <TextField id="standard-basic" label="Client" variant="standard" />
+                    <TextField id="standard-basic" label="Client" variant="standard" onChange={handleChangeInputClient} />
                 </Box>
             </div>
             <div className={style.ProductsSelected}>

@@ -1,7 +1,6 @@
 import './Home.css';
 import CupOfCofee from '../../Images/Cup-of-cofee.svg';
 import burger from '../../Images/burger-lunch.svg';
-// import burgerToSelect from '../../Images/burgertoselect.svg'
 import { useState, useEffect } from 'react';
 import ProductCard from './ProductCard';
 import ListOfOrder from './ListOfOrder';
@@ -17,37 +16,61 @@ const Home = () => {
         status: 'pending',
         dataEntry: '',
     });
-    // const [ productAndQty, setproductAndQty ] = useState([]);
+    const [ client, setClient ] =  useState('');
     const token = localStorage.getItem('accessToken');
+
+    
+
+    // Función que adquiere el nombre del cliente para hacer orden
+    function handleChangeInputClient(e){
+        setClient(e.target.value);
+        console.log(client)
+    }
+    // Añdir una nueva orden:
     const addingOrder = () => {
         const userId = localStorage.getItem('userId');
-        const time =  new Date().toDateString() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds();
-        setOrderData(orderData.userId = userId, orderData.products = productsSelected, orderData.dataEntry = time)
+        // const time =  new Date().toDateString() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds();
+        const time = new Date().toLocaleString();
+        const convertingToObject = productsSelected.map(obj => {
+                const newObjt= {
+                    qty: obj.qty,
+                    product: {
+                        id: obj.id,
+                        name:obj.name, 
+                        price:obj.price, 
+                        type:obj.type, 
+                        dateEntry:obj.dataEntry, 
+                        image:obj.image
+                    }
+                }
+                return newObjt
+            });
+        // pasandole los valores al estado 
+        setOrderData(orderData.userId = userId, orderData.products = convertingToObject, orderData.dataEntry = time, orderData.client = client)
         
-        //FETCH subir datos POST
-        // const url='http://localhost:8080/orders';
-        // const peticionPost = () => fetch(url,{
-        //     method: 'POST',
-        //     body: JSON.stringify(orderData),
-        //     headers:{
-        //         'Content-type': 'application/json',
-        //         'authorization': `Bearer ${token}`
-        //     }
-        // })
-        // .then(res => res.json())
-        // .then(response => {
-        //     console.log(response)
-        //     return response
-        // })
-        // .catch(error => error)
-        // return peticionPost();
+        //FETCH subir datos de orden POST
+        const url='http://localhost:8080/orders';
+        const peticionPost = () => fetch(url,{
+            method: 'POST',
+            body: JSON.stringify(orderData),
+            headers:{
+                'Content-type': 'application/json',
+                'authorization': `Bearer ${token}`
+            }
+        })
+        .then(res => res.json())
+        .then(response => {
+            console.log(response)
+            return response
+        })
+        .catch(error => error)
+        return peticionPost();
     }
 
+    // Añadiendo productos al carrito de orden
     const addProductsSelected = (event, product) => {
         event.preventDefault();
         if(!productsSelected.find((item) => item.id === product.id)){
-            // setproductAndQty(...productAndQty, product)
-            // console.log(productAndQty)
             product.qty = 1;
             setProductsSelected([...productsSelected, product])
         } else{
@@ -56,18 +79,8 @@ const Home = () => {
             })
             setProductsSelected(updateQty)
         }
-        // if(!productsSelected.find((item) => item.product.id === product.id)){
-        //     // let qty = 1;
-        //     setProductsSelected([...productsSelected, { qty:1 , product}])
-        //     console.log(productsSelected)
-        // } else{
-        //     const updateQty = productsSelected.map((p) => {
-        //     return p.id === product.id ? { ...p, qty: p.qty + 1 } : p
-        //     })
-        //     setProductsSelected(updateQty)
-        // }
     }
-
+    // Dismunyendo productos del carrito de orden
     const reduceProductSelected = (event, product) => {
         event.preventDefault();
             const updateQty = productsSelected.map((p) => {
@@ -75,15 +88,23 @@ const Home = () => {
             })
             setProductsSelected(updateQty)
     }
-    // eliminar producto seleccionado
+
+    // Eliminando producto seleccionado del carrito de orden
     const deleteProductSelected = (event, product) => {
         event.preventDefault();
         const newArrayofProductsSelected = productsSelected.filter((item) => item.id !== product.id);
         setProductsSelected(newArrayofProductsSelected)
     }
 
+    // Actualizando precio total de productos seleccionados
+    useEffect(()=>{
+        const arrayOfPrices = productsSelected.map((item)=> item.price*item.qty)
+        const sumTotal = arrayOfPrices.reduce((a, b)=> a + b, 0)
+        setPriceTotal(sumTotal)
+        console.log(productsSelected)
+        }, [productsSelected])
 
-    
+    // Consiguiendo listado de productos con FETCH: GET
     const getProducts = () => {
         
         return fetch('http://localhost:8080/products', {
@@ -103,14 +124,7 @@ const Home = () => {
         
     }, [])
 
-    useEffect(()=>{
-    const arrayOfPrices = productsSelected.map((item)=> item.price*item.qty)
-    const sumTotal = arrayOfPrices.reduce((a, b)=> a + b, 0)
-    setPriceTotal(sumTotal)
-    console.log(productsSelected)
-    }, [productsSelected])
-
-
+    
     return(
         <div className='Home'>
             <section className="section__chooseMenu">
@@ -170,6 +184,7 @@ const Home = () => {
                     deleteProduct={deleteProductSelected}
                     sumTotal={priceTotal}
                     addingOrder={addingOrder}
+                    handleChangeInputClient={handleChangeInputClient}
                     />
 
             </section>
