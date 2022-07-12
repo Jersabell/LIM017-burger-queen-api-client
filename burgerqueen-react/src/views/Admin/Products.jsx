@@ -2,16 +2,15 @@ import './Products.css';
 import React, {useEffect, useState} from 'react';
 import { Box, Table, TableContainer, 
     TableHead, TableCell, TableBody, TableRow, TextField, 
-    Button, Modal, InputLabel, MenuItem, FormControl, Select, Paper } from '@mui/material';
+    Button, Modal, InputLabel, MenuItem, FormControl, Select, Paper, IconButton } from '@mui/material';
 import {Edit, Delete} from '@mui/icons-material';
-
-const url='http://localhost:8080/products';
 
 const Products = () => {
 
     const token = localStorage.getItem('accessToken');
     const [ data, setData ]= useState([]);
     const [ modalInsertar, setmodalInsertar ]= useState(false);
+    const [ modalEditar, setmodalEditar ]= useState(false);
     const [ newData, setNewData] = useState({
         product: '',
         price: '',
@@ -19,7 +18,8 @@ const Products = () => {
         dateEntry: '',
         image: '',
     });
-
+    const [ datosparaEditar, setDatosparaEditar] = useState('');
+    const url='http://localhost:8080/products';
     //FETCH: obtención de datos GET
     const peticionGet = () => fetch(url,{
         method: "GET",
@@ -29,7 +29,7 @@ const Products = () => {
         }
     })
     .then(response => response.json())
-    .then(json => console.log(setData(json)))
+    .then(json => setData(json))
     .catch(err => console.log(err));
 
     //FETCH subir datos POST
@@ -54,9 +54,80 @@ const Products = () => {
     })
     .catch(error => error)
 
-    // FETCH editar productos
-    
+    // FETCH editar productos 
+    // const urlByID = `http://localhost:8080/products/${id}`;
+    // const urlByID = `http://localhost:8080/products/1`;
 
+    // obteniendo el producto con el ID del producto con get
+
+    const peticionGETporID = (id) => fetch(`http://localhost:8080/products/${id}`,{
+        method: 'GET',
+        headers:{
+            'Content-type': 'application/json',
+            'authorization': `Bearer ${token}`
+        }
+    })
+    .then(response => response.json())
+    .then(json => console.log(json))
+    .catch(err => console.log(err));
+
+    // funcion del boton que EDITA EL PRODUCTO
+    const editProduct = (e, product) => {
+        e.preventDefault();
+        console.log(product.name)
+        setDatosparaEditar(product.name)
+        abrirCerrarModalInsertar(!modalEditar);
+
+       // peticionGETporID(id);
+       // data.map(elem => elem.id === product.id)
+    }
+    // PATCH ****************************************************************************
+    const peticionPatch = (id) => fetch(`http://localhost:8080/products/${id}`,{
+        method: 'PATCH',
+        body: JSON.stringify({
+            name:newData.product, 
+            price:newData.price, 
+            type:newData.type, 
+            image:newData.image
+        }),
+        headers:{
+            'Content-type': 'application/json',
+            'authorization': `Bearer ${token}`
+        }
+    })
+    .then(res => res.json())
+    .then(response => {
+        setData([...data, response]);
+        abrirCerrarModalInsertar();
+    })
+    .catch(error => error)
+
+    // DELETE ****************************************************************************
+    const deleteProduct = (e, id) => {
+
+        e.preventDefault();
+
+        fetch(`http://localhost:8080/products/${id}`, {
+        method: 'DELETE',
+        headers:{
+            'Content-type': 'application/json',
+            'authorization': `Bearer ${token}`
+        }
+        })
+        .then(res => res.json())
+        .then(json => peticionGet())
+        .catch(error=>error)
+
+        // peticionGet();
+        console.log(data);
+
+    }
+    
+    // useEffect(()=>{
+    //     deleteProduct();
+    // },[])
+
+    
 
     // función que ABRE o CIERAA el modal
     const abrirCerrarModalInsertar=()=>{
@@ -99,8 +170,8 @@ const Products = () => {
     const bodyInsertarModal=(
         <Box sx={style}>
             <h2 id="parent-modal-title">Add Product</h2>
-            <TextField color="warning" name="product"  label="Product" onChange={handleChangeModal}/>
-            <TextField color="warning" name="price"  label="Price" onChange={handleChangeModal}/>
+            <TextField color="warning" name="product"  label="Product" onChange={handleChangeModal} /> 
+            <TextField color="warning" name="price"  label="Price" onChange={handleChangeModal} />
            <FormControl fullWidth>
                 <InputLabel color="warning" id='select-label'>Type</InputLabel>
                 <Select idlaber='select-label' value={newData.type} color="warning" name='type' label="Type" onChange={handleChangeModal}>
@@ -108,7 +179,7 @@ const Products = () => {
                     <MenuItem value={'Almuerzo'}>Almuerzo</MenuItem>
                 </Select>
            </FormControl>
-            <TextField color="warning" name="image"  label="Image" onChange={handleChangeModal}/>
+            <TextField color="warning" name="image"  label="Image" onChange={handleChangeModal} />
             <div style={{display: 'flex', gap: '15px', justifyContent:'flex-end'}}>
                 <Button variant="contained" color='warning' onClick={peticionPost}>INSERT</Button>
                 <Button variant="contained" color='warning' onClick={abrirCerrarModalInsertar}>CANCEL</Button>
@@ -144,9 +215,14 @@ const Products = () => {
                                     <img className='image-product-Admin' src={product.image} alt="Product" />
                                 </TableCell>
                                 <TableCell>
-                                    <Edit />
+                                    <IconButton color="warning" onClick={(e) => editProduct(e, product)}>
+                                        <Edit />
+                                    </IconButton>
                                     &nbsp;&nbsp;&nbsp;
-                                    <Delete />
+                                    <IconButton color="warning" onClick={(e) => deleteProduct(e, product.id)}>
+                                        <Delete />
+                                    </IconButton>
+                                    
                                 </TableCell>
                             </TableRow>
                         ))}
