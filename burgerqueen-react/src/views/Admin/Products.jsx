@@ -4,19 +4,17 @@ import { Box, Table, TableContainer,
     TableHead, TableCell, TableBody, TableRow, TextField, 
     Button, Modal, InputLabel, MenuItem, FormControl, Select, Paper, IconButton } from '@mui/material';
 import {Edit, Delete} from '@mui/icons-material';
-import BodyDeleteModal from './ModalDelete';
 
 const Products = () => {
 
     const token = localStorage.getItem('accessToken');
     const [ data, setData ]= useState([]);
     const [ modalInsertar, setmodalInsertar ]= useState(false);
-    const [ modalEditar, setmodalEditar ]= useState(false);
-    // const [ modalDelete, setmodalDelete ]= useState(false);
-    const [ datosparaEditar, setDatosparaEditar] = useState('');
-    // const [ deletedProduct, setDeletedProduct ] = useState({})
+    const [ buttonModalEditar, setButtonModalEditar ]= useState(false);
+    const [ datosparaEditar, setDatosparaEditar] = useState(null);
+
     const [ newData, setNewData] = useState({
-        product: '',
+        name: '',
         price: '',
         type: '',
         dateEntry: '',
@@ -24,6 +22,7 @@ const Products = () => {
     });
     
     const url='http://localhost:8080/products';
+
     //FETCH: obtención de datos GET
     const peticionGet = () => fetch(url,{
         method: "GET",
@@ -40,7 +39,7 @@ const Products = () => {
     const peticionPost = () => fetch(url,{
         method: 'POST',
         body: JSON.stringify({
-            name:newData.product, 
+            name:newData.name, 
             price:newData.price, 
             type:newData.type, 
             dateEntry:new Date().toLocaleString(), 
@@ -57,39 +56,23 @@ const Products = () => {
         abrirCerrarModalInsertar();
     })
     .catch(error => error)
-
-    // FETCH editar productos 
-    // const urlByID = `http://localhost:8080/products/${id}`;
-    // const urlByID = `http://localhost:8080/products/1`;
-
-    // obteniendo el producto con el ID del producto con get
-
-    const peticionGETporID = (id) => fetch(`http://localhost:8080/products/${id}`,{
-        method: 'GET',
-        headers:{
-            'Content-type': 'application/json',
-            'authorization': `Bearer ${token}`
-        }
-    })
-    .then(response => response.json())
-    .then(json => console.log(json))
-    .catch(err => console.log(err));
-
-    // funcion del boton que EDITA EL PRODUCTO
+    
+    // funcion del boton que EDITA EL PRODUCTO (lapicito)
     const editProduct = (e, product) => {
         e.preventDefault();
         console.log(product.name)
-        setDatosparaEditar(product.name)
-        abrirCerrarModalInsertar(!modalEditar);
+        setNewData(product)
+        setButtonModalEditar(true);
+        abrirCerrarModalInsertar(!modalInsertar);
+        console.log(modalInsertar);
+        console.log(newData);
 
-       // peticionGETporID(id);
-       // data.map(elem => elem.id === product.id)
     }
     // PATCH ****************************************************************************
     const peticionPatch = (id) => fetch(`http://localhost:8080/products/${id}`,{
         method: 'PATCH',
         body: JSON.stringify({
-            name:newData.product, 
+            name:newData.name, 
             price:newData.price, 
             type:newData.type, 
             image:newData.image
@@ -101,7 +84,8 @@ const Products = () => {
     })
     .then(res => res.json())
     .then(response => {
-        setData([...data, response]);
+        // setData([...data, response]);
+        peticionGet();
         abrirCerrarModalInsertar();
     })
     .catch(error => error)
@@ -118,24 +102,15 @@ const Products = () => {
         }
         })
         .then(res => {
-            // console.log('aquiresprimer then', res)
             return res.json()})
         .then(json => {
-            // console.log('aquires segundo then', json)
-            // console.log('data deltro de la promesa', data)
             return peticionGet()})
         .catch(error=>error)
 
     }
     
-
     // función que ABRE o CIERAA el modal
     const abrirCerrarModalInsertar=()=> setmodalInsertar(!modalInsertar);
-    // const abrirCerrarModalDelete = (product) => {
-    //     setDeletedProduct(product)
-    //     return setmodalDelete(!modalDelete)};
-    // datos que ingresan al INPUT del MODAL
-    // const time = new Date().toDateString() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds();
     
     const handleChangeModal=e=>{
         const {name, value}=e.target;
@@ -143,13 +118,20 @@ const Products = () => {
             ...prevState,
             [name]: value
         }))
+        console.log(name)
+        console.log(value)
     }
-
 
     // muestra los datos obtenidos
     useEffect(()=>{
         peticionGet();
     },[])
+
+    function postOrPatchCall(e, id){
+        e.preventDefault();
+        return buttonModalEditar? peticionPatch(id):peticionPost();
+    }
+    
 
     // Insertar el cuerpo del MODAL        
     const style = {
@@ -170,9 +152,10 @@ const Products = () => {
 
     const bodyInsertarModal=(
         <Box sx={style}>
+            {console.log(newData)}
             <h2 id="parent-modal-title">Add Product</h2>
-            <TextField color="warning" name="product"  label="Product" onChange={handleChangeModal} /> 
-            <TextField color="warning" name="price"  label="Price" onChange={handleChangeModal} />
+            <TextField color="warning" name="name"  label="Product" value={newData.name} onChange={handleChangeModal} /> 
+            <TextField color="warning" name="price"  label="Price" value={newData.price} onChange={handleChangeModal} />
            <FormControl fullWidth>
                 <InputLabel color="warning" id='select-label'>Type</InputLabel>
                 <Select idlaber='select-label' value={newData.type} color="warning" name='type' label="Type" onChange={handleChangeModal}>
@@ -180,9 +163,9 @@ const Products = () => {
                     <MenuItem value={'Almuerzo'}>Almuerzo</MenuItem>
                 </Select>
            </FormControl>
-            <TextField color="warning" name="image"  label="Image" onChange={handleChangeModal} />
+            <TextField color="warning" name="image"  label="Image" value={newData.image} onChange={handleChangeModal} />
             <div style={{display: 'flex', gap: '15px', justifyContent:'flex-end'}}>
-                <Button variant="contained" color='warning' onClick={peticionPost}>INSERT</Button>
+                <Button variant="contained" color='warning' onClick={(e)=>postOrPatchCall(e, newData.id)}>{buttonModalEditar?'EDIT':'INSERT'}</Button>
                 <Button variant="contained" color='warning' onClick={abrirCerrarModalInsertar}>CANCEL</Button>
             </div>
         </Box>
@@ -238,21 +221,9 @@ const Products = () => {
                     {bodyInsertarModal}   
                 </Modal>
             </div>
-            {/* <div>
-                <Modal
-                open={modalDelete}
-                onClose={abrirCerrarModalDelete}>
-                    {<BodyDeleteModal
-                    elemento={deletedProduct}
-                    ftndelete={deleteProduct}/>}
-                </Modal>
-            </div> */}
 
         </div>       
     );
 }
 
 export default Products;
-
-
-

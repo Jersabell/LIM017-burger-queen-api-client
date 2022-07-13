@@ -50,19 +50,11 @@ const Users = () => {
     })
     .then(res => res.json())
     .then(response => {
-        setUsers([...users, response]);
+        setUsers([...users, response.user]);
         abrirCerrarModalInsertar();
     })
     .catch(error => error)
-    // funcion que lee rol para interfaz
-    // function getRoles(param){
-    //     if(param.admin === true){
-    //         return 'Admin'
-    //     } else if(param.waiter === true){
-    //         return 'Waiter'
-    //     } return 'Chef'
-    // }
-
+    
     // función que ABRE o CIERAA el modal
     const abrirCerrarModalInsertar=()=>{
         setmodalInsertar(!modalInsertar);
@@ -150,7 +142,7 @@ const Users = () => {
                                 <TableCell>{user.id}</TableCell>
                                 <TableCell>{user.name}</TableCell>
                                 <TableCell>{user.email}</TableCell>
-                                {/* <TableCell>{getRoles(user.roles)}</TableCell> */}
+                                <TableCell>{Object.keys(user.roles).toString()}</TableCell>
                                 <TableCell>
                                     <Edit />
                                     &nbsp;&nbsp;&nbsp;
