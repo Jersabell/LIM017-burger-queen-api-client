@@ -2,17 +2,15 @@ import './Products.css';
 import React, {useEffect, useState} from 'react';
 import { Box, Table, TableContainer, 
     TableHead, TableCell, TableBody, TableRow, TextField, 
-    Button, Modal, InputLabel, MenuItem, FormControl, Select, Paper } from '@mui/material';
+    Button, Modal, InputLabel, MenuItem, FormControl, Select, Paper, IconButton } from '@mui/material';
 import {Edit, Delete} from '@mui/icons-material';
-// import { styled } from '@mui/material/styles';
-
-
 
 const Users = () => {
     const url='http://localhost:8080/users';
     const token = localStorage.getItem('accessToken');
     const [ users, setUsers ]= useState([]);
     const [ modalInsertar, setmodalInsertar ]= useState(false);
+    const [buttonModalEditar, setButtonModalEditar] = useState(false);
     const [ newUser, setNewUser] = useState({
         name: '',
         email: '',
@@ -54,6 +52,28 @@ const Users = () => {
         abrirCerrarModalInsertar();
     })
     .catch(error => error)
+
+     // PATCH ****************************************************************************
+     const peticionPatch = (id) => fetch(`http://localhost:8080/users/${id}`,{
+        method: 'PATCH',
+        body: JSON.stringify({
+            name:newUser.name, 
+            email:newUser.email, 
+            roles:objtRol, 
+            password:newUser.password
+        }),
+        headers:{
+            'Content-type': 'application/json',
+            'authorization': `Bearer ${token}`
+        }
+    })
+    .then(res => res.json())
+    .then(response => {
+        // setData([...data, response]);
+        peticionGet();
+        abrirCerrarModalInsertar();
+    })
+    .catch(error => error)
     
     // función que ABRE o CIERAA el modal
     const abrirCerrarModalInsertar=()=>{
@@ -82,6 +102,20 @@ const Users = () => {
         peticionGet();
     },[])
 
+    // boton EDITAR (lapicito)
+    const editUser = (e, user) => {
+        e.preventDefault();
+        console.log(user.name);
+        setNewUser(user);
+        setButtonModalEditar(true); // para convertir el texto del btn del modal a EDITR
+        abrirCerrarModalInsertar(!modalInsertar)
+
+    }
+    function postOrPatchCall(e, id){
+        e.preventDefault();
+        return buttonModalEditar? peticionPatch(id):peticionPost();
+    }
+
     // Insertar el cuerpo del MODAL
     const style = {
         position: 'absolute',
@@ -102,9 +136,11 @@ const Users = () => {
     const bodyInsertarModal=(
         <Box sx={style}>
             <h2 id="parent-modal-title">ADD A USER</h2>
-            <TextField color="warning" name="name"  label="Name" onChange={handleChangeModal}/>
-            <TextField color="warning" name="email"  label="Email" onChange={handleChangeModal}/>
-            <TextField color="warning" name="password"  label="Password" onChange={handleChangeModal}/>
+            <TextField color="warning" name="name"  label="Name" value={newUser.name} onChange={handleChangeModal}/>
+            <TextField color="warning" name="email"  label="Email" value={newUser.email} onChange={handleChangeModal}/>
+            <TextField color="warning" name="password"  label="Password" type="password"
+ autoComplete="current-password"
+  onChange={handleChangeModal}/>
            <FormControl fullWidth>
                 <InputLabel color="warning" id='select-label'>Rol</InputLabel>
                 <Select labelId="select-label" value={newUser.roles} color="warning" name='roles' label="rol" onChange={handleChangeModalSelect}>
@@ -115,7 +151,7 @@ const Users = () => {
            </FormControl>
             
             <div style={{display: 'flex', gap: '15px', justifyContent:'flex-end'}}>
-                <Button variant="contained" color='warning' onClick={peticionPost}>INSERT</Button>
+                <Button variant="contained" color='warning' onClick={(e)=>postOrPatchCall(e, newUser.id)}>{buttonModalEditar?'EDIT':'INSERT'}</Button>
                 <Button variant="contained" color='warning' onClick={abrirCerrarModalInsertar}>CANCEL</Button>
             </div>
         </Box>
@@ -144,9 +180,13 @@ const Users = () => {
                                 <TableCell>{user.email}</TableCell>
                                 <TableCell>{Object.keys(user.roles).toString()}</TableCell>
                                 <TableCell>
-                                    <Edit />
+                                    <IconButton color="warning" onClick={(e) => editUser(e, user)}>
+                                        <Edit />
+                                    </IconButton>
                                     &nbsp;&nbsp;&nbsp;
-                                    <Delete />
+                                    <IconButton color="warning" onClick={e => editUser(e, user.id)}>
+                                        <Delete />
+                                    </IconButton>
                                 </TableCell>
                             </TableRow>
                         ))}
