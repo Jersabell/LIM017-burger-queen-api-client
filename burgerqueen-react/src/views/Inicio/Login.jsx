@@ -36,8 +36,8 @@ const LoginForm = () => {
           
           localStorage.setItem('accessToken', accessToken);
           localStorage.setItem('userId', user.id);
-          localStorage.setItem('userRol', JSON.stringify(user.roles));
-          console.log('auidel storage', localStorage.getItem('userRol'))
+          // localStorage.setItem('userRol', JSON.stringify(user.roles));
+          // console.log('auidel storage', localStorage.getItem('userRol'))
 
             if(res === 'Cannot find user'){
               setError('email', {
@@ -50,14 +50,19 @@ const LoginForm = () => {
                 message: res,
                 })
             } else if(rol?.waiter === true){
+              localStorage.setItem('userWaiter', JSON.stringify(user.roles));
               navigate('/Waiter')
+              
             } else if(rol?.admin === true){
+              localStorage.setItem('userAdmin', JSON.stringify(user.roles));
               navigate('/Admin')
             } else if(rol?.chef === true){
+              localStorage.setItem('userChef', JSON.stringify(user.roles));
               navigate('/Chef/Orders')
             } else {
               document.write('Ocurrió un error 404');
             }
+            
         })
         .catch((error) => {
           console.log('catch', error.message); 

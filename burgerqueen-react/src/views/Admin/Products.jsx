@@ -4,6 +4,7 @@ import { Box, Table, TableContainer,
     TableHead, TableCell, TableBody, TableRow, TextField, 
     Button, Modal, InputLabel, MenuItem, FormControl, Select, Paper, IconButton } from '@mui/material';
 import {Edit, Delete} from '@mui/icons-material';
+import BodyDeleteModal from './ModalDelete';
 
 const Products = () => {
 
@@ -11,6 +12,9 @@ const Products = () => {
     const [ data, setData ]= useState([]);
     const [ modalInsertar, setmodalInsertar ]= useState(false);
     const [ modalEditar, setmodalEditar ]= useState(false);
+    // const [ modalDelete, setmodalDelete ]= useState(false);
+    const [ datosparaEditar, setDatosparaEditar] = useState('');
+    // const [ deletedProduct, setDeletedProduct ] = useState({})
     const [ newData, setNewData] = useState({
         product: '',
         price: '',
@@ -18,7 +22,7 @@ const Products = () => {
         dateEntry: '',
         image: '',
     });
-    const [ datosparaEditar, setDatosparaEditar] = useState('');
+    
     const url='http://localhost:8080/products';
     //FETCH: obtención de datos GET
     const peticionGet = () => fetch(url,{
@@ -104,35 +108,32 @@ const Products = () => {
 
     // DELETE ****************************************************************************
     const deleteProduct = (e, id) => {
-
         e.preventDefault();
 
-        fetch(`http://localhost:8080/products/${id}`, {
+        return fetch(`http://localhost:8080/products/${id}`, {
         method: 'DELETE',
         headers:{
             'Content-type': 'application/json',
             'authorization': `Bearer ${token}`
         }
         })
-        .then(res => res.json())
-        .then(json => peticionGet())
+        .then(res => {
+            // console.log('aquiresprimer then', res)
+            return res.json()})
+        .then(json => {
+            // console.log('aquires segundo then', json)
+            // console.log('data deltro de la promesa', data)
+            return peticionGet()})
         .catch(error=>error)
-
-        // peticionGet();
-        console.log(data);
 
     }
     
-    // useEffect(()=>{
-    //     deleteProduct();
-    // },[])
-
-    
 
     // función que ABRE o CIERAA el modal
-    const abrirCerrarModalInsertar=()=>{
-        setmodalInsertar(!modalInsertar);
-    }    
+    const abrirCerrarModalInsertar=()=> setmodalInsertar(!modalInsertar);
+    // const abrirCerrarModalDelete = (product) => {
+    //     setDeletedProduct(product)
+    //     return setmodalDelete(!modalDelete)};
     // datos que ingresan al INPUT del MODAL
     // const time = new Date().toDateString() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds();
     
@@ -185,7 +186,8 @@ const Products = () => {
                 <Button variant="contained" color='warning' onClick={abrirCerrarModalInsertar}>CANCEL</Button>
             </div>
         </Box>
-    )
+    );
+ 
 
     return(
         <div className='Table'>
@@ -219,7 +221,7 @@ const Products = () => {
                                         <Edit />
                                     </IconButton>
                                     &nbsp;&nbsp;&nbsp;
-                                    <IconButton color="warning" onClick={(e) => deleteProduct(e, product.id)}>
+                                    <IconButton color="warning" onClick={e => deleteProduct(e, product.id)}>
                                         <Delete />
                                     </IconButton>
                                     
@@ -236,6 +238,15 @@ const Products = () => {
                     {bodyInsertarModal}   
                 </Modal>
             </div>
+            {/* <div>
+                <Modal
+                open={modalDelete}
+                onClose={abrirCerrarModalDelete}>
+                    {<BodyDeleteModal
+                    elemento={deletedProduct}
+                    ftndelete={deleteProduct}/>}
+                </Modal>
+            </div> */}
 
         </div>       
     );
