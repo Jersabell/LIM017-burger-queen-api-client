@@ -1,11 +1,13 @@
 import './Home.css';
 import CupOfCofee from '../../Images/Cup-of-cofee.svg';
 import burger from '../../Images/burger-lunch.svg';
+import allproducts from '../../Images/allproducts.png'
 import { useState, useEffect } from 'react';
 import ProductCard from './ProductCard';
 import ListOfOrder from './ListOfOrder';
 
 const Home = () => {
+    
     const [ products, setProducts ] = useState();
     const [ productsSelected, setProductsSelected] = useState([]);
     const [ priceTotal, setPriceTotal ] = useState(0);
@@ -19,13 +21,12 @@ const Home = () => {
     const [ client, setClient ] =  useState('');
     const token = localStorage.getItem('accessToken');
 
-    
-
     // Función que adquiere el nombre del cliente para hacer orden
     function handleChangeInputClient(e){
         setClient(e.target.value);
         console.log(client)
     }
+
     // Añdir una nueva orden:
     const addingOrder = () => {
         const userId = localStorage.getItem('userId');
@@ -129,6 +130,12 @@ const Home = () => {
         <div className='Home'>
             <section className="section__chooseMenu">
                 <div className='div__buttons'>
+                    <div>
+                        <button>
+                            <p>All products</p>  
+                            <img src={allproducts} className='img-menu-all' alt='Cup of cofee'/>
+                        </button>
+                    </div>
                     <div>
                         <button>
                             <p>Breakfasts</p>  

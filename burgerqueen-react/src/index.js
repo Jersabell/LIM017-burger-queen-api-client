@@ -19,7 +19,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 //      <App />  
 //    </React.StrictMode>
 // );
-const test = true;
+// const test = true;
 // const rol = localStorage.getItem('userRol');
 // console.log(typeof(rol))
 // function adminRol(){
@@ -29,7 +29,13 @@ const test = true;
 //   return rol === '{"waiter":true}'? true : false
 // }
 
-
+// const rolWaiter = localStorage.getItem('userWaiter');
+// console.log(rolWaiter ? rolWaiter : 'ajá no funciona')
+const rolAdmin = localStorage.getItem('userAdmin');
+// function ir(){
+//   let navigate = useNavigate();
+//   return rolWaiter? navigate('/Waiter') : navigate('/Login')
+// }
 
 root.render(
   <BrowserRouter>
@@ -43,14 +49,13 @@ root.render(
         <Route path='Orders' element={<Order />}/>
         <Route path='*' element={<PageNotFound />}/>
       </Route>
-  
-      {test && ( 
+      {/* {rolAdmin && (  */}
       <Route path='/Admin' element={<AppAdmin/>}>
         <Route index element={<Products/>}/>
         <Route path='ProfileAdmin' element={<ProfileAdmin />}/>
         <Route path='Users' element={<Users />}/>
       </Route>
-      )} 
+      {/* )}  */}
       
     </Routes>
   </BrowserRouter>

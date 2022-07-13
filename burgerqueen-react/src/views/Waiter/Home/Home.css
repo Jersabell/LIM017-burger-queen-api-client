@@ -33,7 +33,7 @@
 .div__buttons{
     /* background-color: aquamarine; */
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 5px;
     align-items: center;
     padding: 5px;
@@ -66,13 +66,19 @@
     cursor: pointer;
     color: white;
 }
-
-.div__buttons>div>button>img{
+.img-menu-all{
+    width: 120px;
+    margin-top: -10px;
+}
+.img-menu{
     width: 60px;
 }
 .products{
     display: flex;
     flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
+    /* background-color: #fa5c00; */
 }
 .choose-by-type{
     display: flex;
@@ -114,18 +120,21 @@
 }
 
 .list-of-Products{
-   height: auto;
-   padding: 20px;
-   text-align: center;
+    width: 100%;
+    height: auto;
+    padding: 5px;
+    text-align: center;
 
     
-    /* background-color: rgba(0, 0, 0, 0.65); */
+    /* background-color: rgba(174, 146, 146, 0.735); */
 }
 
 .list-of-Products>div{
     /* background-color: #a5440c; */
     display: grid;
     grid-template-columns: repeat(auto-fill, 180px);
+    justify-content: center;
+    gap: 20px;
 
 }
 
