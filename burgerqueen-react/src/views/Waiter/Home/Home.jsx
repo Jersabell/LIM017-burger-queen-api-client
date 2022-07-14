@@ -19,6 +19,8 @@ const Home = () => {
         dataEntry: '',
     });
     const [ client, setClient ] =  useState('');
+    const [ breakfast, setBreakfast ] = useState(null);
+    const [ lunches, setLunches ] = useState(null)
     const token = localStorage.getItem('accessToken');
 
     // Función que adquiere el nombre del cliente para hacer orden
@@ -81,6 +83,7 @@ const Home = () => {
             setProductsSelected(updateQty)
         }
     }
+
     // Dismunyendo productos del carrito de orden
     const reduceProductSelected = (event, product) => {
         event.preventDefault();
@@ -124,8 +127,17 @@ const Home = () => {
         getProducts();
         
     }, [])
-
     
+    const filterBreakfast = () => {
+        const array = products.filter((product)=> product.type==='Desayuno');
+        setBreakfast(array)
+    }
+    console.log('aqui', breakfast)
+    const filterLunches = () => {
+        const array = products.filter((product)=> product.type==='Almuerzo');
+        setLunches(array)
+    }
+    console.log('aqui', lunches)
     return(
         <div className='Home'>
             <section className="section__chooseMenu">
@@ -137,42 +149,32 @@ const Home = () => {
                         </button>
                     </div>
                     <div>
-                        <button>
+                        <button onClick={filterBreakfast}>
                             <p>Breakfasts</p>  
                             <img src={CupOfCofee} className='img-menu' alt='Cup of cofee'/>
                         </button>
                     </div>
                     <div >
-                        <button>
+                        <button onClick={filterLunches}>
                             <p>Lunches</p> 
                             <img src={burger} className='img-menu' alt='burger-lunch'/>
                         </button>
                         
                     </div>
-                </div>
-                           
+                </div>         
                 <div className="products">
-                    {/* <div className="choose-by-type">
-                        <div>
-                            <img src={burgerToSelect} alt='burger'></img>
-                            Burgers
-                            <i className="fa-solid fa-circle-play iconHomeView"></i>
-                        </div>
-                        <div>
-                        <img src={burgerToSelect} alt='burger'></img>
-                            Extra
-                            <i className="fa-solid fa-circle-play iconHomeView"></i>
-                        </div>
-                        <div>
-                        <img src={burgerToSelect} alt='burger'></img>
-                            Drinks
-                            <i className="fa-solid fa-circle-play iconHomeView"></i>
-                        </div>
-                    </div>  */}
                     <div className="list-of-Products">
                         <div>
-                        {!products ? 'Cargando...' : 
+                        {!products ? 'Loading...' : 
                         products.map((product) => {
+                            return  <ProductCard 
+                                key={product.id}
+                                product={product}
+                                addProductsSelected={addProductsSelected}                                
+                                /> 
+                                })}
+                        {!breakfast ? 'Loading...' : 
+                        breakfast.map((product) => {
                             return  <ProductCard 
                                 key={product.id}
                                 product={product}

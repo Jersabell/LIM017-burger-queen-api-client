@@ -4,141 +4,137 @@ import { useNavigate } from "react-router-dom"
 import { useForm } from 'react-hook-form'
 
 // Petición HTTP
-const request = ({email, password}, url) => new Promise ((resolve, reject) =>{
-  return  fetch(url, {
+const request = ({ email, password }, url) => new Promise((resolve, reject) => {
+  return fetch(url, {
     method: 'POST',
-    body: JSON.stringify({email, password}),
+    body: JSON.stringify({ email, password }),
     headers: {
-      'Content-Type': 'application/json' 
+      'Content-Type': 'application/json'
     }
   })
-  .then(res => res.json())
-  .then(response => resolve(response))
-  .catch(error => reject(error))
+    .then(res => res.json())
+    .then(response => resolve(response))
+    .catch(error => reject(error))
 })
 
+// .... vista login
 // COMPONENTE PARA FORMULARIO
-
-const LoginForm = () => {
+const Login = () => {
 
   let navigate = useNavigate();
-  const { register, setError, formState: {errors}, handleSubmit} = useForm();
+  const { register, setError, formState: { errors }, handleSubmit } = useForm();
 
   const onSubmit = (data, event) => {
-        const url = 'http://localhost:8080/login';
-        const {email, password} = data;
+    const url = 'http://localhost:8080/login';
+    const { email, password } = data;
 
-        request({email, password}, url)
-        .then((res) => {
-          const { accessToken, user } = res;
-          const rol = user?.roles;
-          console.log(user)
-          
-          localStorage.setItem('accessToken', accessToken);
-          localStorage.setItem('userId', user.id);
+    request({ email, password }, url)
+      .then((res) => {
+        const { accessToken, user } = res;
+        const rol = user?.roles;
+        console.log(user)
 
-            if(res === 'Cannot find user'){
-              setError('email', {
-              type: "server",
-              message: res,
-              })
-            } else if(res === 'Incorrect password') {
-              setError('password', {
-                type: "server",
-                message: res,
-                })
-            } else if(rol?.waiter === true){
-              localStorage.setItem('userWaiter', JSON.stringify(user.roles));
-              navigate('/Waiter')
-              
-            } else if(rol?.admin === true){
-              localStorage.setItem('userAdmin', JSON.stringify(user.roles));
-              navigate('/Admin')
-            } else if(rol?.chef === true){
-              localStorage.setItem('userChef', JSON.stringify(user.roles));
-              navigate('/Chef')
-            } else {
-              document.write('Ocurrió un error 404');
-            }
-            
-        })
-        .catch((error) => {
-          console.log('catch', error.message); 
-        })
-        event.target.reset();
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('userId', user.id);
+
+        if (res === 'Cannot find user') {
+          setError('email', {
+            type: "server",
+            message: res,
+          })
+        } else if (res === 'Incorrect password') {
+          setError('password', {
+            type: "server",
+            message: res,
+          })
+        } else if (rol?.waiter === true) {
+          localStorage.setItem('userWaiter', JSON.stringify(user.roles));
+          navigate('/Waiter')
+
+        } else if (rol?.admin === true) {
+          localStorage.setItem('userAdmin', JSON.stringify(user.roles));
+          navigate('/Admin')
+        } else if (rol?.chef === true) {
+          localStorage.setItem('userChef', JSON.stringify(user.roles));
+          navigate('/Chef')
+        } else {
+          document.write('Ocurrió un error 404');
+        }
+
+      })
+      .catch((error) => {
+        console.log('catch', error.message);
+      })
+    event.target.reset();
   }
-    return (
-            <form className="loginForm" onSubmit={handleSubmit(onSubmit)}>
-                <div className="col-md-3">
-                  <label className='label-form'>
-                    Email:
-                    <div className='div__Icon-Input'>
-                      <i className="fa-solid fa-envelope Icon"></i>
-                      <input 
-                        type="email" 
-                        placeholder="example@example.com" 
-                        className="input-form-control" 
-                        name="email"
-                        {...register('email',{
-                          required: {
-                              value: true, 
-                              message: '⚠️ Email is required'
-                              } 
-                      })}
-                      />
-                    </div>
-                      <span className='spanLogin'>
-                        {errors?.email?.message}
-                      </span>
-                  </label>
-                </div>
-                <div className="col-md-3">
-                  <label className='label-form'>
-                    Password:
-                    <div className='div__Icon-Input'>
-                      <i className="fa-solid fa-lock Icon"></i>
-                      <input 
-                        type="password" 
-                        placeholder="******" 
-                        className="input-form-control" 
-                        name="password"
-                        {...register('password',{
-                          required: {
-                              value: true, 
-                              message: '⚠️ Password is required'
-                              }, 
-                          maxLength: {
-                              value: 200, 
-                              message: '⚠️ No more than 30 characteres!'
-                              },
-                          minLength: {
-                              value: 6, 
-                              message: '⚠️ At least 6 characteres!'
-                              }
-                      })}
-                      />
-                    </div>
-                      <span className='spanLogin'>
-                        {errors?.password?.message}
-                      </span>
-                  </label>
-                </div>
-                <button type="submit" className="btn-primary">Login</button>
-            </form>
-    );
-}
-
-// .... vista login
-
-function Login() {
   return (
-      <main className="App-main">
-        <img src={logo} className="App-logo" alt="logo" />
-        <section className='sectionLoginForm'>
-          {LoginForm()}
-        </section>
-      </main>
+    <main className="App-main">
+    <img src={logo} className="App-logo" alt="logo" />
+    <section className='sectionLoginForm'>
+    <form className="loginForm" onSubmit={handleSubmit(onSubmit)}>
+      <div className="col-md-3">
+        <label className='label-form'>
+          Email:
+          <div className='div__Icon-Input'>
+            <i className="fa-solid fa-envelope Icon"></i>
+            <input
+              type="email"
+              placeholder="example@example.com"
+              className="input-form-control"
+              name="email"
+              {...register('email', {
+                required: {
+                  value: true,
+                  message: '⚠️ Email is required'
+                }
+              })}
+            />
+          </div>
+          <span className='spanLogin'>
+            {errors?.email?.message}
+          </span>
+        </label>
+      </div>
+      <div className="col-md-3">
+        <label className='label-form'>
+          Password:
+          <div className='div__Icon-Input'>
+            <i className="fa-solid fa-lock Icon"></i>
+            <input
+              type="password"
+              placeholder="******"
+              className="input-form-control"
+              name="password"
+              {...register('password', {
+                required: {
+                  value: true,
+                  message: '⚠️ Password is required'
+                },
+                maxLength: {
+                  value: 200,
+                  message: '⚠️ No more than 30 characteres!'
+                },
+                minLength: {
+                  value: 6,
+                  message: '⚠️ At least 6 characteres!'
+                }
+              })}
+            />
+          </div>
+          <span className='spanLogin'>
+            {errors?.password?.message}
+          </span>
+        </label>
+      </div>
+      <button type="submit" className="btn-primary">Login</button>
+    </form>
+    </section>
+    </main>
   );
 }
+
+
+
+
 
 export default Login;

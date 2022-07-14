@@ -17,7 +17,6 @@ export function AppWaiter() {
         <Navbar 
           icon0 ='fa-solid fa-house' ref0='/Waiter' name0='HOME' 
           icon1 = 'fa-solid fa-list-check' ref1='/Waiter/Orders' name1='ORDERS' 
-          icon2 = 'fa-solid fa-user' ref2='/Waiter/Profile' name2='PROFILE'
         />
       </header>
       <main className='main-container'>
@@ -41,7 +40,6 @@ export function AppChef() {
         <Navbar 
           icon0 ='' ref0='' name0='' 
           icon1 = '' ref1='' name1='' 
-          icon2 = '' ref2='' name2=''
         />
       </header>
       <main className='main-container'>
@@ -64,7 +62,7 @@ export function AppAdmin() {
         <Navbar 
           icon0 ='fa-solid fa-burger' ref0='/Admin' name0='PRODUCTS' 
           icon1 = 'fa-solid fa-users' ref1='/Admin/Users' name1='USERS'  
-          icon2 = 'fa-solid fa-user' ref2='/Admin/ProfileAdmin' name2='PROFILE' 
+
         />
       </header>
       <main className='main-container'>

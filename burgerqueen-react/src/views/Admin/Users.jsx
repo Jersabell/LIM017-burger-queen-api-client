@@ -79,6 +79,17 @@ const Users = () => {
     const abrirCerrarModalInsertar=()=>{
         setmodalInsertar(!modalInsertar);
     }    
+    useEffect(()=>{
+        if(modalInsertar === false){
+            setButtonModalEditar(false)
+            return setNewUser(({
+                name: '',
+                email: '',
+                password: '',
+                roles: '',
+            })) 
+        } else{ console.log('open modal')}
+    }, [modalInsertar]) 
     
     // datos que ingresan al INPUT del MODAL
     
@@ -101,6 +112,25 @@ const Users = () => {
     useEffect(()=>{
         peticionGet();
     },[])
+
+    // botn ELIMINAR
+    const deleteUser = (e, id) => {
+        e.preventDefault();
+
+        return fetch(`http://localhost:8080/users/${id}`, {
+        method: 'DELETE',
+        headers:{
+            'Content-type': 'application/json',
+            'authorization': `Bearer ${token}`
+        }
+        })
+        .then(res => {
+            return res.json()})
+        .then(json => {
+            return peticionGet()})
+        .catch(error=>error)
+
+    }
 
     // boton EDITAR (lapicito)
     const editUser = (e, user) => {
@@ -184,7 +214,7 @@ const Users = () => {
                                         <Edit />
                                     </IconButton>
                                     &nbsp;&nbsp;&nbsp;
-                                    <IconButton color="warning" onClick={e => editUser(e, user.id)}>
+                                    <IconButton color="warning" onClick={e => deleteUser(e, user.id)}>
                                         <Delete />
                                     </IconButton>
                                 </TableCell>
