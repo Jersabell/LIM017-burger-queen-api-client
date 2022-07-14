@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Navbar from './views/components/Navbar';
 import './App.css'
@@ -27,13 +27,33 @@ export function AppWaiter() {
   );
 };
 
+
+// Controles para Chef: barra de navegación para todas las vistas de este usuario
+
+export function AppChef() {
+  return (
+    <>
+      <header>
+        <div className='logoName'>
+          <img src={logowaiter} className="logowaiter" alt="logo"/>
+          <h3>Burger Restaurant</h3>
+        </div>
+        <Navbar 
+          icon0 ='' ref0='' name0='' 
+          icon1 = '' ref1='' name1='' 
+          icon2 = '' ref2='' name2=''
+        />
+      </header>
+      <main className='main-container'>
+        <Outlet />
+      </main>
+    </>
+  );
+};
+
 // Controles para Admin: barra de navegación para todas las vistas de este usuario
 
 export function AppAdmin() {
-useEffect(()=>{
-  
-})
-
   return (
     <>
       <header>

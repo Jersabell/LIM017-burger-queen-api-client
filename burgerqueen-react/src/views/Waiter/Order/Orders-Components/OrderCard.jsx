@@ -3,6 +3,11 @@ import CardProduct from './CardProduct';
 import CardButton from './CardButton';
 
 function OrderCard({client, dataEntry, userId, status, products }){
+    const textToButton = () => {
+        if(status==='pending'){
+            return 'Pending . . .'
+    } return 'Deliver'
+}
     return(
         <article className={style.Card}>
             <div className={style.Card__info}>
@@ -21,7 +26,7 @@ function OrderCard({client, dataEntry, userId, status, products }){
             </div>
             <div className={style.Card__button}>
                 <CardButton
-                text="listo para servir"/>
+                text={textToButton()}/>
                 <p>Status: {status}</p>
                 <p>tiempo de prepación: -</p>
             </div>

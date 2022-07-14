@@ -36,8 +36,6 @@ const LoginForm = () => {
           
           localStorage.setItem('accessToken', accessToken);
           localStorage.setItem('userId', user.id);
-          // localStorage.setItem('userRol', JSON.stringify(user.roles));
-          // console.log('auidel storage', localStorage.getItem('userRol'))
 
             if(res === 'Cannot find user'){
               setError('email', {
@@ -58,7 +56,7 @@ const LoginForm = () => {
               navigate('/Admin')
             } else if(rol?.chef === true){
               localStorage.setItem('userChef', JSON.stringify(user.roles));
-              navigate('/Chef/Orders')
+              navigate('/Chef')
             } else {
               document.write('Ocurrió un error 404');
             }

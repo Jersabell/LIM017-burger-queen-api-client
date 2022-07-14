@@ -5,13 +5,14 @@ import { Box, Table, TableContainer,
     Button, Modal, InputLabel, MenuItem, FormControl, Select, Paper, IconButton } from '@mui/material';
 import {Edit, Delete} from '@mui/icons-material';
 
+
 const Products = () => {
 
     const token = localStorage.getItem('accessToken');
     const [ data, setData ]= useState([]);
     const [ modalInsertar, setmodalInsertar ]= useState(false);
     const [ buttonModalEditar, setButtonModalEditar ]= useState(false);
-    const [ datosparaEditar, setDatosparaEditar] = useState(null);
+    // const [ datosparaEditar, setDatosparaEditar] = useState(null);
 
     const [ newData, setNewData] = useState({
         name: '',
@@ -112,6 +113,19 @@ const Products = () => {
     // función que ABRE o CIERAA el modal
     const abrirCerrarModalInsertar=()=> setmodalInsertar(!modalInsertar);
     
+    useEffect(()=>{
+        if(modalInsertar === false){
+            setButtonModalEditar(false)
+            return setNewData(({
+                name: '',
+                price: '',
+                type: '',
+                dateEntry: '',
+                image: '',
+            })) 
+        } else{ console.log('open modal')}
+    }, [modalInsertar]) 
+
     const handleChangeModal=e=>{
         const {name, value}=e.target;
         setNewData(prevState=>({

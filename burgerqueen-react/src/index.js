@@ -7,35 +7,13 @@ import Login from './views/Inicio/Login';
 import Products from './views/Admin/Products'
 import Users from './views/Admin/Users'
 import ProfileAdmin from './views/Admin/ProfileAdmin';
-import { AppWaiter, AppAdmin } from './App';
+import { AppWaiter, AppAdmin, AppChef } from './App';
 import Profile from './views/Waiter/Profile/Profile';
 import Order from "./views/Waiter/Order/Orders";
 import HomeWaiter from "./views/Waiter/Home/Home";
 import PageNotFound from "./views/Waiter/PageNotFound";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-// root.render(
-//    <React.StrictMode>
-//      <App />  
-//    </React.StrictMode>
-// );
-// const test = true;
-// const rol = localStorage.getItem('userRol');
-// console.log(typeof(rol))
-// function adminRol(){
-//   return rol === '{"admin":true}'? true : false
-// }
-// function waiterRol(){
-//   return rol === '{"waiter":true}'? true : false
-// }
-
-// const rolWaiter = localStorage.getItem('userWaiter');
-// console.log(rolWaiter ? rolWaiter : 'ajá no funciona')
-const rolAdmin = localStorage.getItem('userAdmin');
-// function ir(){
-//   let navigate = useNavigate();
-//   return rolWaiter? navigate('/Waiter') : navigate('/Login')
-// }
 
 root.render(
   <BrowserRouter>
@@ -56,7 +34,9 @@ root.render(
         <Route path='Users' element={<Users />}/>
       </Route>
       {/* )}  */}
-      
+      <Route path='/Chef' element={<AppChef/>}>
+        <Route index element={<Order/>}/>
+      </Route>
     </Routes>
   </BrowserRouter>
 );
