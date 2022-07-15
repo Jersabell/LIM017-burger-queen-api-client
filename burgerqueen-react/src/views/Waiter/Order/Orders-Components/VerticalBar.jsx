@@ -1,12 +1,11 @@
 import style from './VerticalBar.module.css'
-function VerticalBar(){
+function VerticalBar({filterAllOrders, filterPending, filterDelivering, filterDelivered}){
     return(
         <ul className={style.VerticalBar}>
-            <li className={style.VerticalBar__li}>All Orders</li>
-            <li className={style.VerticalBar__li}>Pending</li>
-            <li className={style.VerticalBar__li}>Delivering</li>
-            <li className={style.VerticalBar__li}>Delivered</li>
-            <li className={style.VerticalBar__li}>Canceled</li>
+            <li className={style.VerticalBar__li} onClick={filterAllOrders}>All Orders</li>
+            <li className={style.VerticalBar__li} onClick={filterPending}>Pending</li>
+            <li className={style.VerticalBar__li} onClick={filterDelivering}>Delivering</li>
+            <li className={style.VerticalBar__li} onClick={filterDelivered}>Delivered</li>
         </ul>
     )
 };

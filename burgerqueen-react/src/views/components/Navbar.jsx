@@ -1,13 +1,16 @@
 import { Link } from "react-router-dom";
-import './Narvbar.css'
+import './Navbar.css'
 import { useNavigate } from "react-router-dom"
 
-const Navbar = ({ref0, name0, icon0, ref1, name1, icon1, ref2, name2, icon2}) => {
+const Navbar = ({ref0, name0, icon0, ref1, name1, icon1}) => {
     let navigate = useNavigate();
+    
+    // cerrar sesión
     function logout(){
         localStorage.clear();
         return navigate('/');
     }
+
     return (
         <nav className="configuration">
             <div>
@@ -24,4 +27,5 @@ const Navbar = ({ref0, name0, icon0, ref1, name1, icon1, ref2, name2, icon2}) =>
         </nav>
     )
 };
+
 export default Navbar;

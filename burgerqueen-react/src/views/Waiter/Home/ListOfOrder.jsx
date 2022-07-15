@@ -2,7 +2,7 @@ import * as React from 'react';
 import {Delete, Add, Remove} from '@mui/icons-material';
 import { Stack, Button, IconButton, Box, TextField, ButtonGroup, Snackbar, MuiAlert, AlertProps } from '@mui/material';
 import  style  from './ListOfOrder.module.css'
-import CardButton from '../Order/Orders-Components/CardButton';
+import {CardButton} from '../Order/Orders-Components/CardButton';
 
 
 function ListOfOrder({productsProp, addProductSelected, quitProductSelected, deleteProduct, sumTotal, addingOrder, handleChangeInputClient}){

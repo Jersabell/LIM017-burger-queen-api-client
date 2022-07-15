@@ -1,7 +1,6 @@
 .configuration{
     /* background-color: rgb(237, 162, 162); */
     display: flex;
-    /* justify-content: space-around; */
     align-items: center;
     justify-content: flex-end;
     padding-right: 25px;

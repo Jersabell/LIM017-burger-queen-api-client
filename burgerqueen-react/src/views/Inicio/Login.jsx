@@ -36,6 +36,7 @@ const Login = () => {
 
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('userId', user.id);
+        localStorage.setItem('userRol', JSON.stringify(user.roles));
 
         if (res === 'Cannot find user') {
           setError('email', {
@@ -48,14 +49,11 @@ const Login = () => {
             message: res,
           })
         } else if (rol?.waiter === true) {
-          localStorage.setItem('userWaiter', JSON.stringify(user.roles));
           navigate('/Waiter')
 
         } else if (rol?.admin === true) {
-          localStorage.setItem('userAdmin', JSON.stringify(user.roles));
           navigate('/Admin')
         } else if (rol?.chef === true) {
-          localStorage.setItem('userChef', JSON.stringify(user.roles));
           navigate('/Chef')
         } else {
           document.write('Ocurrió un error 404');

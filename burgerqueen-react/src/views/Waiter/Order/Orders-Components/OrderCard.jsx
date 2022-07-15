@@ -1,13 +1,19 @@
 import style from './OrderCard.module.css';
 import CardProduct from './CardProduct';
-import CardButton from './CardButton';
+import {CardButton, CardButtonDisabled} from './CardButton';
 
-function OrderCard({client, dataEntry, userId, status, products }){
-    const textToButton = () => {
-        if(status==='pending'){
-            return 'Pending . . .'
-    } return 'Deliver'
-}
+function OrderCard({ client, dataEntry, userId, status, products, id, changeToDelivered, changeToDelivering}){
+
+    const showButton = () => {
+        const rol = localStorage.getItem('userRol');
+
+        if(status==='delivering'&& rol ==='{"waiter":true}'){
+            return  <CardButton text={'Delivered'} clickftn={(e) => changeToDelivered(e, id)}/>
+        } else if(status==='pending'&& rol ==='{"chef":true}'){
+            return <CardButton text={'Delivering'} clickftn={(e) => changeToDelivering(e, id)}/>
+        } return <CardButtonDisabled text={status}/>
+        }
+
     return(
         <article className={style.Card}>
             <div className={style.Card__info}>
@@ -25,8 +31,7 @@ function OrderCard({client, dataEntry, userId, status, products }){
                 price={item.product.price}/>)}
             </div>
             <div className={style.Card__button}>
-                <CardButton
-                text={textToButton()}/>
+                {showButton()}
                 <p>Status: {status}</p>
                 <p>tiempo de prepación: -</p>
             </div>
