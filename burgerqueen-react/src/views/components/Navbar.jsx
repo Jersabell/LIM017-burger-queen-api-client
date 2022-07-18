@@ -5,7 +5,8 @@ const Navbar = ({ref0, name0, icon0, ref1, name1, icon1, navigate}) => {
     // cerrar sesión
     function logout(){
         localStorage.clear();
-        return navigate('/');
+        navigate('/');
+        window.location.reload()
     }
 
     return (
