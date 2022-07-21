@@ -1,5 +1,3 @@
-// import React from 'react';
-// import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
 import { CardButton, CardButtonDisabled } from "../../../views/Waiter/Order/Orders-Components/CardButton";
 import CardProduct from '../../../views/Waiter/Order/Orders-Components/CardProduct';

@@ -15,4 +15,3 @@ test('renders content', () =>{
     const linkElement = screen.getByText('HOME');
     expect(linkElement).toBeInTheDocument();
 })
-
