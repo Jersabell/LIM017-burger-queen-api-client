@@ -25,7 +25,7 @@ const Login = () => {
   const { register, setError, formState: { errors }, handleSubmit } = useForm();
 
   const onSubmit = (data, event) => {
-    const url = 'http://localhost:8080/login';
+    const url = 'https://mk--server.herokuapp.com/login';
     const { email, password } = data;
 
     request({ email, password }, url)

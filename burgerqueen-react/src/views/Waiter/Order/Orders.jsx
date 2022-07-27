@@ -11,7 +11,7 @@ const Order = () => {
     const token = localStorage.getItem('accessToken');
 
     // Conseguir ordenes
-    const getOrders = () => fetch('http://localhost:8080/orders', {
+    const getOrders = () => fetch('https://mk--server.herokuapp.com/orders', {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
@@ -31,7 +31,7 @@ const Order = () => {
     }, [])
 
     // petición path
-    const peticionPatch = (id, textStatus) => fetch(`http://localhost:8080/orders/${id}`,{
+    const peticionPatch = (id, textStatus) => fetch(`https://mk--server.herokuapp.com/orders/${id}`,{
         method: 'PATCH',
         body: JSON.stringify({
             status: textStatus, 

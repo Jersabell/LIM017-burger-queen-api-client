@@ -50,7 +50,7 @@ const Home = () => {
         setOrderData(orderData.userId = userId, orderData.products = convertingToObject, orderData.dataEntry = time, orderData.client = client)
         
         //FETCH subir datos de orden POST
-        const url='http://localhost:8080/orders';
+        const url='https://mk--server.herokuapp.com/orders';
         const peticionPost = () => fetch(url,{
             method: 'POST',
             body: JSON.stringify(orderData),
@@ -110,7 +110,7 @@ const Home = () => {
     // Consiguiendo listado de productos con FETCH: GET
     const getProducts = () => {
         
-        return fetch('http://localhost:8080/products', {
+        return fetch('https://mk--server.herokuapp.com/products', {
             method: "GET",
             headers: {
                 "Content-type": "application/json",

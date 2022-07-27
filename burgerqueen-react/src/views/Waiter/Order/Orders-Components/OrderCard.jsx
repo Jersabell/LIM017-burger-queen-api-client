@@ -16,24 +16,27 @@ function OrderCard({ client, dataEntry, userId, status, products, id, changeToDe
 
     return(
         <article className={style.Card}>
-            <div className={style.Card__info}>
-                <h4>List of Order</h4>
-                <p>Client: {client}</p>
-                <p>Date: {dataEntry}</p>
-                <p>Waiter: {userId}</p>
-            </div>
-            <div className={style.Card__products}>
-                {products.map(item => <CardProduct
-                key={`${item.product.name}-${item.product.id}-${client}`}
-                qty={item.qty}
-                img={!item.product.image ? 'image not found' : item.product.image }
-                name={item.product.name}
-                price={item.product.price}/>)}
+            <div>
+                <div className={style.Card__info}>
+                    <h4>List of Order</h4>
+                    <p>Client: {client}</p>
+                    <p>Date: {dataEntry}</p>
+                    <p>Waiter: {userId}</p>
+                    <p>Status: {status}</p>
+                {/* <p>tiempo de prepación: -</p> */}
+                    <br></br>
+                </div>
+                <div className={style.Card__products}>
+                    {products.map(item => <CardProduct
+                    key={`${item.product.name}-${item.product.id}-${client}`}
+                    qty={item.qty}
+                    img={!item.product.image ? 'image not found' : item.product.image }
+                    name={item.product.name}
+                    price={item.product.price}/>)}
+                </div>
             </div>
             <div className={style.Card__button}>
                 {showButton()}
-                <p>Status: {status}</p>
-                <p>tiempo de prepación: -</p>
             </div>
         </article>
     )

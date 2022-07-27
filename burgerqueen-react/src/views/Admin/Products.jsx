@@ -21,7 +21,7 @@ const Products = () => {
         dateEntry: '',
         image: '',
     });
-    const url = 'http://localhost:8080/products';
+    const url = 'https://mk--server.herokuapp.com/products';
 
     // muestra los datos-productos obtenidos con fetch
     useEffect(() => {

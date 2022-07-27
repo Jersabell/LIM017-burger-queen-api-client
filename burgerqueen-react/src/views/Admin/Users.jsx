@@ -9,7 +9,7 @@ import { Edit, Delete } from '@mui/icons-material';
 import { peticionGet, peticionPost, peticionPatch, peticionDelete } from '../../utils/fetchAdminUsers';
 
 const Users = () => {
-    const url = 'http://localhost:8080/users';
+    const url = 'https://mk--server.herokuapp.com/users';
     const token = localStorage.getItem('accessToken');
     const [users, setUsers] = useState([]);
     const [modalInsertar, setmodalInsertar] = useState(false);
