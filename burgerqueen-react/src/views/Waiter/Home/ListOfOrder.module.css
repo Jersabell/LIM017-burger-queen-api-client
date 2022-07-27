@@ -1,0 +1,111 @@
+.ListOfOrder{
+    /* background-color: blueviolet; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.titleOfList{
+    margin-top: 20px;
+    width: 60%;
+    height: 32px;
+    background-color: black;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+
+}
+.addClient{
+    text-align: left;
+    width: 90%;
+}
+
+
+.ProductsSelected{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* background-color: rgb(21, 7, 33); */
+    width: 90%;
+}
+.NoProductsSelected{
+    /* background-color: white; */
+    width: 100%;
+    height: 70px;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.407) 0px 5px 15px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.CardProductSelected{
+    background-color: white;
+    display: grid;
+    width: 100%;
+    height: 70px;
+    grid-template-columns: 1fr 3fr 1fr;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.407) 0px 5px 15px 0px;
+    
+}
+
+
+.firstDiv, .secondDiv{
+    /* background-color: brown; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+}
+.imgselectedProduct{
+    height: 60px;
+    /* background-color: aqua; */
+}
+
+.secondDiv{
+    /* background-color: blueviolet; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.secondDiv>p{
+    font-size: 15px;
+    font-weight: 600;
+}
+.secondDiv>div{
+    width: 120px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    /* background-color: aqua; */
+    font-size: 22px;
+    font-weight: 600;
+}
+.thirdDiv{
+    /* background-color: rgb(209, 143, 64);sss */
+    padding-right: 10px;
+    text-align: right;
+}
+.thirdDiv>IconButton{
+    margin-top: 50px;
+}
+
+.totalPrice{
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    font-weight: 600;
+    /* background-color: aqua; */
+}
