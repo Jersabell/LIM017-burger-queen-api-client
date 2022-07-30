@@ -28,7 +28,7 @@ export const peticionPost = (url,token, newUser) => fetch(url, {
         .catch(error => error)
 
 // FETCH PATCH 
-export const peticionPatch = (id, token, newUser) => fetch(`http://localhost:8080/users/${id}`, {
+export const peticionPatch = (id, token, newUser) => fetch(`https://mk--server.herokuapp.com/users/${id}`, {
     method: 'PATCH',
     body: JSON.stringify({
         name: newUser.name,
@@ -45,7 +45,7 @@ export const peticionPatch = (id, token, newUser) => fetch(`http://localhost:808
     .catch(error => error)
 
 // FETCH DELETE
-export const peticionDelete = (id, token) => fetch(`http://localhost:8080/users/${id}`, {
+export const peticionDelete = (id, token) => fetch(`https://mk--server.herokuapp.com/users/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-type': 'application/json',

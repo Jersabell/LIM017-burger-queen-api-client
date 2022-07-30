@@ -32,21 +32,15 @@ const Login = () => {
       .then((res) => {
         const { accessToken, user } = res;
         const rol = user?.roles;
-        console.log(user)
-
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('userId', user.id);
-        localStorage.setItem('userRol', JSON.stringify(user.roles));
-
         if (res === 'Cannot find user') {
           setError('email', {
             type: "server",
-            message: res,
+            message: `⚠️ ${res}`,
           })
         } else if (res === 'Incorrect password') {
           setError('password', {
             type: "server",
-            message: res,
+            message: `⚠️ ${res}`,
           })
         } else if (rol?.waiter === true) {
           navigate('/Waiter')
@@ -56,14 +50,17 @@ const Login = () => {
         } else if (rol?.chef === true) {
           navigate('/Chef')
         } else {
-          document.write('Ocurrió un error 404');
+          document.write('Error 404');
         }
-
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('userId', user.id);
+        localStorage.setItem('userRol', JSON.stringify(user.roles));
       })
       .catch((error) => {
         console.log('catch', error.message);
       })
-    event.target.reset();
+      // event.target.password.reset();
+    // event.target.reset();
   }
   return (
     <main className="App-main">
